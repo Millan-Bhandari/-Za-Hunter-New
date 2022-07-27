@@ -28,7 +28,7 @@ struct ContentView: View {
                 userTrackingMode: $userTrackingMode,
                 annotationItems: places) { place in
                 MapAnnotation(coordinate: place.annotation.coordinate) {
-                    NavigationLink(destination: LocationDetailsView(selectedMapPin: place.mapItem)) {
+                    NavigationLink(destination: LocationDetailsView(selectedMapItem: place.mapItem)) {
                         Image("pizza")
                     }
                 }
