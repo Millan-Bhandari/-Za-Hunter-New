@@ -20,20 +20,25 @@ struct ContentView: View {
     @State private var places = [Place]()
     @StateObject var locationManager = LocationManager()
     @State private var userTrackingMode: MapUserTrackingMode = .follow
-    
-    
-    
     var body: some View {
-        Map(coordinateRegion: $region,
-            interactionModes: .all,
-            showsUserLocation: true,
-            userTrackingMode: $userTrackingMode,
-            annotationItems: places) { place in
-            MapPin(coordinate: place.annotation.coordinate)
-        }
-            .onAppear() {
-                performSearch(item: "Pizza")
+        NavigationView {
+            Map(coordinateRegion: $region,
+                interactionModes: .all,
+                showsUserLocation: true,
+                userTrackingMode: $userTrackingMode,
+                annotationItems: places) { place in
+                MapAnnotation(coordinate: place.annotation.coordinate) {
+                    NavigationLink(destination: LocationDetailsView(selectedMapPin: place.mapItem)) {
+                        Image("pizza")
+                    }
+                }
             }
+                .onAppear() {
+                    performSearch(item: "Pizza")
+                }
+                .navigationTitle("'ZaHunter'")
+                .navigationBarTitleDisplayMode(.inline)
+        }
     }
     func performSearch(item: String) {
         let searchRequest = MKLocalSearch.Request()
